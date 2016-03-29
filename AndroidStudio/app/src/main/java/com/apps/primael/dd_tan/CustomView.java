@@ -43,7 +43,7 @@ public class CustomView extends SurfaceView implements Runnable
             }
 
             Canvas canvas = holder.lockCanvas();
-            canvas.drawARGB(255, 204, 0, 204);
+            canvas.drawARGB(255, 255, 128, 0);
 
             canvas.drawCircle(holder.getSurfaceFrame().width() / 2, holder.getSurfaceFrame().height() / 2, 50, paint);
 
