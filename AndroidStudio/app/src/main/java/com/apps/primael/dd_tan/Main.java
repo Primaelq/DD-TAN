@@ -3,7 +3,7 @@ package com.apps.primael.dd_tan;
 import android.app.Activity;
 import android.os.Bundle;
 
-public class Display extends Activity
+public class Main extends Activity
 {
     CustomView customView;
 
