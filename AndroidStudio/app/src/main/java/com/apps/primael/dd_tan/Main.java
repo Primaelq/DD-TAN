@@ -29,6 +29,8 @@ public class Main extends Activity
         blocks = new ArrayList<>();
 
         blocks.add(0, new Block(100, 100, 1));
+        blocks.add(1, new Block(100, 100, 1));
+        blocks.add(2, new Block(100, 100, 1));
 
         if(blocks.isEmpty())
         {
