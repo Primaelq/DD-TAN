@@ -10,7 +10,7 @@ import java.util.List;
 public class Main extends Activity
 {
     CustomView customView;
-
+    public static Ball b = new Ball();
     public static List<Block> blocks;
 
     @Override

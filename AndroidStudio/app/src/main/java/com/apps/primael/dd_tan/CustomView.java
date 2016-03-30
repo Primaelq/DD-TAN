@@ -19,6 +19,8 @@ public class CustomView extends SurfaceView implements Runnable
     int x = 0;
     int y = 0;
 
+    Ball ball = Main.b;
+
     int frames = 0;
 
     public CustomView(Context context)
@@ -67,11 +69,14 @@ public class CustomView extends SurfaceView implements Runnable
                 canvas.drawRect(r, paint);
             }
 
-            canvas.drawCircle( x, y, 50, paint);
 
-            if(y < holder.getSurfaceFrame().height())
+
+            canvas.drawRoundRect( ball.rectF, 100, 100, paint);
+
+            if(ball.top + ball.velocity[1] < holder.getSurfaceFrame().height())
             {
-                y += 10;
+                Log.d("Debug", "Moving");
+                ball.move();
             }
 
             holder.unlockCanvasAndPost(canvas);
