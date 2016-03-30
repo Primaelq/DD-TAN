@@ -14,6 +14,9 @@ public class CustomView extends SurfaceView implements Runnable
     SurfaceHolder holder;
     Paint paint;
 
+    int x = 0;
+    int y = 0;
+
     public CustomView(Context context)
     {
         super(context);
@@ -31,6 +34,7 @@ public class CustomView extends SurfaceView implements Runnable
     {
         super.onDraw(canvas);
 
+        x = holder.getSurfaceFrame().width() / 2;
     }
 
     public void run()
@@ -45,7 +49,12 @@ public class CustomView extends SurfaceView implements Runnable
             Canvas canvas = holder.lockCanvas();
             canvas.drawARGB(255, 255, 128, 0);
 
-            canvas.drawCircle(holder.getSurfaceFrame().width() / 2, holder.getSurfaceFrame().height() / 2, 50, paint);
+            canvas.drawCircle( x, y, 50, paint);
+
+            if(y < holder.getSurfaceFrame().height())
+            {
+                y++;
+            }
 
             holder.unlockCanvasAndPost(canvas);
         }
