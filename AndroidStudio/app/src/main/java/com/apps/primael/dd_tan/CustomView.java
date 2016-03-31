@@ -32,7 +32,7 @@ public class CustomView extends SurfaceView implements Runnable
 
         paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(Color.BLUE);
+        paint.setColor(Color.rgb(255, 0, 127));
     }
 
     @Override
@@ -53,29 +53,19 @@ public class CustomView extends SurfaceView implements Runnable
             }
 
             Canvas canvas = holder.lockCanvas();
-            canvas.drawARGB(255, 255, 128, 0);
+            canvas.drawARGB(255, 0, 0, 0);
 
             for(int i = 0; i < Main.blocks.size(); i++)
             {
                 Block b = Main.blocks.get(i);
 
-                if(i != 0 && frames == 0)
-                {
-                    b.marginSide += Main.blocks.get(i - 1).marginSide + Main.blocks.get(i - 1).size;
-                    Log.d("Debug", "" + b.marginSide);
-                }
-
-                Rect r = new Rect(b.marginSide, b.marginTop, b.size + b.marginSide, b.size + b.marginTop);
-                canvas.drawRect(r, paint);
+                b.drawBlock(canvas, b, paint, frames, i);
             }
 
-
-
-            canvas.drawRoundRect( ball.rectF, 100, 100, paint);
+            canvas.drawRoundRect(ball.rectF, 100, 100, paint);
 
             if(ball.top + ball.velocity[1] < holder.getSurfaceFrame().height())
             {
-                Log.d("Debug", "Moving");
                 ball.move();
             }
 
