@@ -6,12 +6,15 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Main extends Activity
 {
     CustomView customView;
     public static Ball b = new Ball();
     public static List<Block> blocks;
+
+    Random random = new Random();
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -28,9 +31,7 @@ public class Main extends Activity
     {
         blocks = new ArrayList<>();
 
-        blocks.add(0, new Block(100, 100, 1));
-        blocks.add(1, new Block(100, 100, 1));
-        blocks.add(2, new Block(100, 100, 1));
+        generateBlocks(blocks);
 
         if(blocks.isEmpty())
         {
@@ -39,6 +40,15 @@ public class Main extends Activity
         else
         {
             Toast.makeText(Main.this, "Blocks list contains: " + blocks.size() + " objects", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void generateBlocks(List<Block> list)
+    {
+        int n = random.nextInt(7);
+        for(int i = 0; i <= n; i++)
+        {
+            list.add(i, new Block(100, 100, 1, 0));
         }
     }
 

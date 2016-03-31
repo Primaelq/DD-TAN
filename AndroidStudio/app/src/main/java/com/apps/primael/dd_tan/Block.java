@@ -5,22 +5,30 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
+import java.util.Random;
+
 public class Block
 {
     int count = 0;
+
     int positionX = 0;
     int positionY = 0;
+
     int size = 150;
     int marginSide = 25;
     int marginTop = 25;
     int padding = 15;
+
     int fontSize = 50;
 
-    public Block(int x, int y, int startCount)
+    int currentRow = 0;
+
+    public Block(int x, int y, int startCount, int row)
     {
         positionX = x;
         positionY = y;
         count = startCount;
+        currentRow = row;
     }
 
     public void drawBlock(Canvas canvas, Block b, Paint paint, int frames, int i)
@@ -40,15 +48,5 @@ public class Block
         paint.setColor(Color.rgb(255, 0, 127));
         paint.setTextSize(fontSize);
         canvas.drawText("" + b.count, r.centerX() - fontSize / 4, r.centerY() + fontSize / 4, paint);
-    }
-
-    public void goDown()
-    {
-        positionY -= 100;
-    }
-
-    public void collided()
-    {
-        count --;
     }
 }

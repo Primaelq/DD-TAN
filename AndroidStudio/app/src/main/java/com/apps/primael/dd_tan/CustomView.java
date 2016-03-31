@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -15,9 +14,6 @@ public class CustomView extends SurfaceView implements Runnable
     boolean ready = false;
     SurfaceHolder holder;
     Paint paint;
-
-    int x = 0;
-    int y = 0;
 
     Ball ball = Main.b;
 
@@ -39,8 +35,6 @@ public class CustomView extends SurfaceView implements Runnable
     protected void onDraw(Canvas canvas)
     {
         super.onDraw(canvas);
-
-        x = holder.getSurfaceFrame().width() / 2;
     }
 
     public void run()
