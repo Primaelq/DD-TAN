@@ -5,8 +5,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
-import java.util.Random;
-
 public class Block
 {
     int count = 0;
@@ -23,6 +21,8 @@ public class Block
 
     int currentRow = 0;
 
+    Rect render;
+
     public Block(int x, int y, int startCount, int row)
     {
         positionX = x;
@@ -38,15 +38,20 @@ public class Block
             b.marginSide += Main.blocks.get(i - 1).marginSide + Main.blocks.get(i - 1).size;
         }
 
-        Rect r = new Rect(b.marginSide, b.marginTop, b.size + b.marginSide, b.size + b.marginTop);
-        canvas.drawRect(r, paint);
+        render = new Rect(b.marginSide, b.marginTop, b.size + b.marginSide, b.size + b.marginTop);
+        canvas.drawRect(render, paint);
 
         paint.setColor(Color.BLACK);
-        r = new Rect(b.marginSide + b.padding, b.marginTop + b.padding, b.size + b.marginSide - b.padding, b.size + b.marginTop - b.padding);
-        canvas.drawRect(r, paint);
+        render = new Rect(b.marginSide + b.padding, b.marginTop + b.padding, b.size + b.marginSide - b.padding, b.size + b.marginTop - b.padding);
+        canvas.drawRect(render, paint);
 
         paint.setColor(Color.rgb(255, 0, 127));
         paint.setTextSize(fontSize);
-        canvas.drawText("" + b.count, r.centerX() - fontSize / 4, r.centerY() + fontSize / 4, paint);
+        canvas.drawText("" + b.count, render.centerX() - fontSize / 4, render.centerY() + fontSize / 4, paint);
+    }
+
+    public void goDown()
+    {
+        marginTop = 200 * Main.turns;
     }
 }

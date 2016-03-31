@@ -7,7 +7,7 @@ public class Ball {
     RectF rectF;
     int left, top;
     final int size = 100;
-    int [] velocity = {1, 1};
+    int [] velocity = {5, 10};
 
     public Ball ()
     {

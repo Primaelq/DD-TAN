@@ -14,6 +14,10 @@ public class Main extends Activity
     public static Ball b = new Ball();
     public static List<Block> blocks;
 
+    public static int turns = 0;
+
+    public static boolean turnStarted = false;
+
     Random random = new Random();
 
     @Override
@@ -21,6 +25,9 @@ public class Main extends Activity
     {
         super.onCreate(savedInstanceState);
         customView = new CustomView(this);
+
+        turnStarted = true;
+        turns = 1;
 
         setContentView(customView);
 
@@ -31,7 +38,7 @@ public class Main extends Activity
     {
         blocks = new ArrayList<>();
 
-        generateBlocks(blocks);
+        generateBlocks(blocks, turns);
 
         if(blocks.isEmpty())
         {
@@ -43,12 +50,12 @@ public class Main extends Activity
         }
     }
 
-    public void generateBlocks(List<Block> list)
+    public void generateBlocks(List<Block> list, int t)
     {
-        int n = random.nextInt(7);
+        int n = random.nextInt(6);
         for(int i = 0; i <= n; i++)
         {
-            list.add(i, new Block(100, 100, 1, 0));
+            list.add(i, new Block(100, 100, t, 0));
         }
     }
 

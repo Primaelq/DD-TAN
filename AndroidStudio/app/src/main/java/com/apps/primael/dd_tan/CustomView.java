@@ -62,6 +62,22 @@ public class CustomView extends SurfaceView implements Runnable
             {
                 ball.move();
             }
+            else
+            {
+                Main.turnStarted = false;
+
+                for(int i = 0; i < Main.blocks.size(); i++)
+                {
+                    Block b = Main.blocks.get(i);
+
+                    b.goDown();
+                }
+
+                ball.left = 100;
+                ball.top = 100;
+
+                Main.turns++;
+            }
 
             holder.unlockCanvasAndPost(canvas);
             frames++;
