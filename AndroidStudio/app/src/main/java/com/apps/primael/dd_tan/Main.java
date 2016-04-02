@@ -2,13 +2,14 @@ package com.apps.primael.dd_tan;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Main extends Activity
+public class Main extends Activity implements Runnable
 {
     CustomView customView;
     public static Ball b = new Ball();
@@ -19,6 +20,8 @@ public class Main extends Activity
     public static boolean turnStarted = false;
 
     Random random = new Random();
+
+    Thread thread;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -32,30 +35,45 @@ public class Main extends Activity
         setContentView(customView);
 
         initBlocks();
+        thread = new Thread(this);
+        thread.start();
     }
 
     public void initBlocks()
     {
         blocks = new ArrayList<>();
 
-        generateBlocks(blocks, turns);
+        generateBlocks();
+    }
 
-        if(blocks.isEmpty())
+    public void generateBlocks()
+    {
+        int n = 4;//random.nextInt(6);
+
+        for(int i = 0; i < n; i++)
         {
-            Toast.makeText(Main.this, "Blocks list empty !!!", Toast.LENGTH_SHORT).show();
-        }
-        else
-        {
-            Toast.makeText(Main.this, "Blocks list contains: " + blocks.size() + " objects", Toast.LENGTH_SHORT).show();
+            blocks.add(blocks.size(), new Block(100, 100, turns, 1));
         }
     }
 
-    public void generateBlocks(List<Block> list, int t)
+    public void run()
     {
-        int n = random.nextInt(6);
-        for(int i = 0; i <= n; i++)
+        while(true)
         {
-            list.add(i, new Block(100, 100, t, 0));
+            if (!turnStarted)
+            {
+                turns++;
+
+                for(int i = 0; i < blocks.size(); i++)
+                {
+                    Block b = blocks.get(i);
+
+                    b.goDown();
+                }
+
+                generateBlocks();
+                turnStarted = true;
+            }
         }
     }
 
@@ -69,6 +87,17 @@ public class Main extends Activity
     protected void onPause() {
         super.onPause();
         customView.pause();
+
+        try
+        {
+            thread.join();
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+
+        thread = null;
     }
 
     @Override
@@ -76,5 +105,8 @@ public class Main extends Activity
     {
         super.onResume();
         customView.resume();
+
+        thread = new Thread(this);
+        thread.start();
     }
 }

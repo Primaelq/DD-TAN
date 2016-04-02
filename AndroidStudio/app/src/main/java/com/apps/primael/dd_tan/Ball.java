@@ -1,8 +1,10 @@
 package com.apps.primael.dd_tan;
 
 import android.graphics.RectF;
+import android.view.SurfaceHolder;
 
-public class Ball {
+public class Ball
+{
 
     RectF rectF;
     int left, top;
@@ -28,5 +30,22 @@ public class Ball {
         left += velocity[0];
         top += velocity[1];
         rectF.set(left, top, left+size, top+size);
+    }
+
+    public  void checkFall(SurfaceHolder holder)
+    {
+        if(this.top + this.velocity[1] < holder.getSurfaceFrame().height())
+        {
+            this.move();
+        }
+        else
+        {
+            this.left = 100;
+            this.top = 100;
+
+            CustomView.frames = 0;
+
+            Main.turnStarted = false;
+        }
     }
 }

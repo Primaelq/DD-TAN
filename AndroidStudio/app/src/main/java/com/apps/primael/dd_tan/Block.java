@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
 
 public class Block
 {
@@ -33,7 +34,7 @@ public class Block
 
     public void drawBlock(Canvas canvas, Block b, Paint paint, int frames, int i)
     {
-        if(i != 0 && frames == 0)
+        if(i != 0 && frames == 0 && b.currentRow == Main.blocks.get(i - 1).currentRow)
         {
             b.marginSide += Main.blocks.get(i - 1).marginSide + Main.blocks.get(i - 1).size;
         }
@@ -52,6 +53,7 @@ public class Block
 
     public void goDown()
     {
-        marginTop = 200 * Main.turns;
+        marginTop = 200 * currentRow;
+        currentRow++;
     }
 }

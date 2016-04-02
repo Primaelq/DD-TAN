@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -17,7 +16,7 @@ public class CustomView extends SurfaceView implements Runnable
 
     Ball ball = Main.b;
 
-    int frames = 0;
+    public static int frames = 0;
 
     public CustomView(Context context)
     {
@@ -49,6 +48,7 @@ public class CustomView extends SurfaceView implements Runnable
             Canvas canvas = holder.lockCanvas();
             canvas.drawARGB(255, 0, 0, 0);
 
+            // Draw blocks
             for(int i = 0; i < Main.blocks.size(); i++)
             {
                 Block b = Main.blocks.get(i);
@@ -56,28 +56,11 @@ public class CustomView extends SurfaceView implements Runnable
                 b.drawBlock(canvas, b, paint, frames, i);
             }
 
+            // Draw ball
             canvas.drawRoundRect(ball.rectF, 100, 100, paint);
 
-            if(ball.top + ball.velocity[1] < holder.getSurfaceFrame().height())
-            {
-                ball.move();
-            }
-            else
-            {
-                Main.turnStarted = false;
-
-                for(int i = 0; i < Main.blocks.size(); i++)
-                {
-                    Block b = Main.blocks.get(i);
-
-                    b.goDown();
-                }
-
-                ball.left = 100;
-                ball.top = 100;
-
-                Main.turns++;
-            }
+            // Detect ball fall
+            ball.checkFall(holder);
 
             holder.unlockCanvasAndPost(canvas);
             frames++;
