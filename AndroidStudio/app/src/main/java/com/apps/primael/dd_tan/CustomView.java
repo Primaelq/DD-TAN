@@ -60,7 +60,7 @@ public class CustomView extends SurfaceView implements Runnable
             canvas.drawRoundRect(ball.rectF, 100, 100, paint);
 
             // Detect ball fall
-            ball.checkFall(holder);
+            ball.checkSides(holder);
 
             holder.unlockCanvasAndPost(canvas);
             frames++;

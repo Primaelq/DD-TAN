@@ -36,7 +36,7 @@ public class Main extends Activity implements Runnable
 
         initBlocks();
         thread = new Thread(this);
-        thread.start();
+        //thread.start();
     }
 
     public void initBlocks()

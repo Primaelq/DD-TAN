@@ -8,8 +8,8 @@ public class Ball
 
     RectF rectF;
     int left, top;
-    final int size = 100;
-    int [] velocity = {5, 10};
+    final int size = 50;
+    int [] velocity = {5, 3};
 
     public Ball ()
     {
@@ -32,8 +32,18 @@ public class Ball
         rectF.set(left, top, left+size, top+size);
     }
 
-    public  void checkFall(SurfaceHolder holder)
+    public  void checkSides(SurfaceHolder holder)
     {
+        if(this.left + this.size + this.velocity[0] > holder.getSurfaceFrame().right)
+        {
+            this.setVelocity(-this.velocity[0], this.velocity[1]);
+        }
+        if(this.left - this.velocity[0] == holder.getSurfaceFrame().left)
+        {
+            this.setVelocity(-this.velocity[0], this.velocity[1]);
+            this.left += 2*velocity[0];
+        }
+
         if(this.top + this.velocity[1] < holder.getSurfaceFrame().height())
         {
             this.move();
