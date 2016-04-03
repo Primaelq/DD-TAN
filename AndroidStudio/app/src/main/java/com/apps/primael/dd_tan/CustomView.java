@@ -12,9 +12,9 @@ public class CustomView extends SurfaceView implements Runnable
     Thread thread;
     boolean ready = false;
     SurfaceHolder holder;
-    Paint paint;
+    Paint paintBricks, paintBalls;
 
-    Ball ball = Main.b;
+    Ball ball = Main.ball;
 
     public static int frames = 0;
 
@@ -25,9 +25,12 @@ public class CustomView extends SurfaceView implements Runnable
 
         setWillNotDraw(false);
 
-        paint = new Paint();
-        paint.setStyle(Paint.Style.FILL);
-        paint.setColor(Color.rgb(255, 0, 127));
+        paintBricks = new Paint();
+        paintBricks.setStyle(Paint.Style.FILL);
+        paintBricks.setColor(Color.rgb(255, 0, 127));
+        paintBalls = new Paint();
+        paintBalls.setStyle(Paint.Style.FILL);
+        paintBalls.setColor(Color.rgb(255, 255, 127));
     }
 
     @Override
@@ -53,15 +56,17 @@ public class CustomView extends SurfaceView implements Runnable
             {
                 Block b = Main.blocks.get(i);
 
-                b.drawBlock(canvas, b, paint, frames, i);
+                b.drawBlock(canvas, b, paintBricks, frames, i);
             }
 
-            // Draw ball
-            canvas.drawRoundRect(ball.rectF, 100, 100, paint);
 
-            // Detect ball fall
-            ball.checkSides(holder);
+            if (ball != null) {
+                // Draw ball
+                canvas.drawRoundRect(ball.rectF, 100, 100, paintBalls);
 
+                // Detect ball fall
+                ball.checkSides(holder);
+            }
             holder.unlockCanvasAndPost(canvas);
             frames++;
         }

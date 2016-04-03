@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Main extends Activity implements Runnable
-{
+public class Main extends Activity implements Runnable {
     CustomView customView;
-    public static Ball b = new Ball();
+    public static int bottom;
+    public static Ball ball;
     public static List<Block> blocks;
 
     public static int turns = 0;
@@ -24,9 +24,10 @@ public class Main extends Activity implements Runnable
     Thread thread;
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initBlocks();
+        initBalls();
         customView = new CustomView(this);
 
         turnStarted = true;
@@ -34,13 +35,12 @@ public class Main extends Activity implements Runnable
 
         setContentView(customView);
 
-        initBlocks();
         thread = new Thread(this);
-        //thread.start();
+        thread.start();
+
     }
 
-    public void initBlocks()
-    {
+    public void initBlocks() {
         blocks = new ArrayList<>();
 
         generateBlocks();
@@ -56,24 +56,32 @@ public class Main extends Activity implements Runnable
         }
     }
 
+    public void initBalls()
+    {
+        ball = new Ball();
+    }
+
     public void run()
     {
+
         while(true)
         {
             if (!turnStarted)
             {
                 turns++;
-
+                bottom = customView.holder.getSurfaceFrame().height();
+                Log.d("Debug", "" + bottom);
+                ball.startBall(bottom);
                 for(int i = 0; i < blocks.size(); i++)
                 {
                     Block b = blocks.get(i);
 
                     b.goDown();
                 }
-
                 generateBlocks();
                 turnStarted = true;
             }
+
         }
     }
 
