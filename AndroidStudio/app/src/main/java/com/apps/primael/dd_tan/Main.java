@@ -1,93 +1,42 @@
 package com.apps.primael.dd_tan;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.SurfaceHolder;
 import android.widget.Toast;
+
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Main extends Activity implements Runnable {
+public class Main extends Activity{
     CustomView customView;
-    public static int bottom;
-    public static Ball ball;
-    public static List<Block> blocks;
 
-    public static int turns = 0;
-
-    public static boolean turnStarted = false;
-
-    Random random = new Random();
-
-    Thread thread;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initBlocks();
-        initBalls();
         customView = new CustomView(this);
-
-        turnStarted = true;
-        turns = 1;
-
         setContentView(customView);
 
-        thread = new Thread(this);
-        thread.start();
-
-    }
-
-    public void initBlocks() {
-        blocks = new ArrayList<>();
-
-        generateBlocks();
-    }
-
-    public void generateBlocks()
-    {
-        int n = 4;//random.nextInt(6);
-
-        for(int i = 0; i < n; i++)
-        {
-            blocks.add(blocks.size(), new Block(100, 100, turns, 1));
-        }
-    }
-
-    public void initBalls()
-    {
-        ball = new Ball();
-    }
-
-    public void run()
-    {
-
-        while(true)
-        {
-            if (!turnStarted)
-            {
-                turns++;
-                bottom = customView.holder.getSurfaceFrame().height();
-                Log.d("Debug", "" + bottom);
-                ball.startBall(bottom);
-                for(int i = 0; i < blocks.size(); i++)
-                {
-                    Block b = blocks.get(i);
-
-                    b.goDown();
-                }
-                generateBlocks();
-                turnStarted = true;
-            }
-
-        }
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
-    protected void onDestroy()
-    {
+    protected void onDestroy() {
         super.onDestroy();
     }
 
@@ -95,26 +44,63 @@ public class Main extends Activity implements Runnable {
     protected void onPause() {
         super.onPause();
         customView.pause();
-
-        try
-        {
+        /*
+        try {
             thread.join();
-        }
-        catch (InterruptedException e)
-        {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
         thread = null;
+        */
     }
 
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
         customView.resume();
 
-        thread = new Thread(this);
-        thread.start();
+        //thread = new Thread(this);
+        //thread.start();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://com.apps.primael.dd_tan/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://com.apps.primael.dd_tan/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
     }
 }
